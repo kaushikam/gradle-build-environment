@@ -30,3 +30,21 @@ tasks.register("printProps") {
 		println("Command line: $commandLineValue")
 	}
 }
+
+/**
+ * Project properties can be used to manipulate gradle functionality.
+ * A common use case is build profile
+ */
+tasks.register("performRelease") {
+	doLast {
+		/**
+		 * You can set isCI=any value in gradle.properties or -PisCI in command line
+		 * or systemProp.org.gradle.project.isCI in gradle.properties file
+		 */
+		if (project.hasProperty("isCI")) {
+			println("Performing release actions")
+		} else {
+			throw InvalidUserDataException("Cannot perform release outside of CI")
+		}
+	}
+}
